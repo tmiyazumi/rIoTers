@@ -1,7 +1,8 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import { db } from "./firebase";
-import { getDocs, collection, query, where } from "@firebase/firestore";
+import { getDatabase, ref, child, get } from "firebase/database";
+
 import Register from "./Register";
 
 function App() {
@@ -12,27 +13,38 @@ function App() {
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const ref = collection(db, "group"); // Firestore collection reference
-        const q = query(ref, where("groupName", "==", roomData.groupName)); // Create a query to filter by groupName
-        const querySnapshot = await getDocs(q);
-
-        if (querySnapshot.size > 0) {
-          // Retrieve the first matching document
-          querySnapshot.forEach((doc) => {
-            setRoomData({ ...doc.data() });
-          });
-        } else {
-          // Handle the case when no matching document is found
-          console.log("No document found with groupName:", roomData.groupName);
-        }
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-
-    fetchData();
+    // WORKING ON READING FROM
+    // const dbRef = ref(getDatabase());
+    // get(child(dbRef, `users/${userId}`))
+    //   .then((snapshot) => {
+    //     if (snapshot.exists()) {
+    //       console.log(snapshot.val());
+    //     } else {
+    //       console.log("No data available");
+    //     }
+    //   })
+    //   .catch((error) => {
+    //     console.error(error);
+    //   });
+    // const fetchData = async () => {
+    //   try {
+    //     const ref = collection(db, "group"); // Firestore collection reference
+    //     const q = query(ref, where("groupName", "==", roomData.groupName)); // Create a query to filter by groupName
+    //     const querySnapshot = await getDocs(q);
+    //     if (querySnapshot.size > 0) {
+    //       // Retrieve the first matching document
+    //       querySnapshot.forEach((doc) => {
+    //         setRoomData({ ...doc.data() });
+    //       });
+    //     } else {
+    //       // Handle the case when no matching document is found
+    //       console.log("No document found with groupName:", roomData.groupName);
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching data:", error);
+    //   }
+    // };
+    // fetchData();
   });
 
   return (

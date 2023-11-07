@@ -1,5 +1,6 @@
 import { initializeApp } from "firebase/app";
-import { getFirestore } from "@firebase/firestore";
+import { getDatabase } from "firebase/database";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -13,10 +14,11 @@ const firebaseConfig = {
   messagingSenderId: "1016852189752",
   appId: "1:1016852189752:web:ac748e2c57ca121eb6cccd",
   measurementId: "G-V6THY66CX8",
+  databaseURL: "https://rioters-b0f93-default-rtdb.firebaseio.com",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+const db = getDatabase(app);
 
 export { db };
