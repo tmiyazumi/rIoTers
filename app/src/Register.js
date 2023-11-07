@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { addDoc, collection } from "@firebase/firestore";
 import { db } from "./firebase";
+import { ref, set } from "firebase/database";
+
 // Import the functions you need from the SDKs you need
 
 function Register({ getRoomData }) {
@@ -26,26 +27,29 @@ function Register({ getRoomData }) {
     }
     console.log(listOfRoommates);
 
-    const ref = collection(db, "group"); // Firebase creates this automatically
-
     let data = {
       queue: listOfRoommates,
       index: 0,
       groupName: formData.get("group-name"),
     };
 
-    const expirationDate = new Date();
-    expirationDate.setDate(expirationDate.getDate() + 7);
-    const cookieValue = data.groupName;
-    document.cookie = `myCookie=${cookieValue}; expires=${expirationDate.toUTCString()}`;
+    set(ref(db, `${formData.get("group-name")}`), data);
+
+    // Push the new data to the database (creates a new unique key for each entry)
+    // const ref = collection(db, "group"); // Firebase creates this automatically
+
+    // const expirationDate = new Date();
+    // expirationDate.setDate(expirationDate.getDate() + 7);
+    // const cookieValue = data.groupName;
+    // document.cookie = `myCookie=${cookieValue}; expires=${expirationDate.toUTCString()}`;
     // Send room data to frontend app component
     getRoomData(data);
 
-    try {
-      addDoc(ref, data);
-    } catch (err) {
-      console.log(err);
-    }
+    // try {
+    //   addDoc(ref, data);
+    // } catch (err) {
+    //   console.log(err);
+    // }
     // db.collection("roommates")
     //   .add({ names: listOfRoommates })
     //   .then(() => {
