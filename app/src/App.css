@@ -2,6 +2,58 @@
   text-align: center;
 }
 
+.queue {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 100px;
+}
+.title {
+  margin: 30px;
+}
+.subtitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.roommate-item-selected {
+  border-style: solid;
+  border-radius: 10px;
+  border-color: #0051ff;
+  font-size: 40px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.roommate-item {
+  font-size: 40px;
+  padding-right: 20px;
+  padding-left: 20px;
+}
+.roommate-form {
+  margin-top: 20px;
+}
+
+.information {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 50px;
+  width: 100%;
+}
+.title-2 {
+  margin-bottom: 20px;
+}
+.leaderboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 40%;
+}
+.stats {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

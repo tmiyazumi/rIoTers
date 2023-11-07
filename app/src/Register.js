@@ -7,7 +7,6 @@ import { ref, set } from "firebase/database";
 function Register({ getRoomData }) {
   const [inputFields, setInputFields] = useState([]);
   const [numRoommates, setNumRoommates] = useState(1);
-
   const addInputField = () => {
     setNumRoommates(numRoommates + 1);
     setInputFields([
@@ -22,15 +21,20 @@ function Register({ getRoomData }) {
     const formData = new FormData(form);
     // all the names of the roomates in order
     let listOfRoommates = [];
+    let phoneList = [];
     for (let i = 0; i < numRoommates; i++) {
       listOfRoommates.push(formData.get(i + 1));
+      phoneList.push(formData.get(`phone${i + 1}`));
     }
+
     console.log(listOfRoommates);
+    console.log(phoneList);
 
     let data = {
       queue: listOfRoommates,
       index: 0,
       groupName: formData.get("group-name"),
+      numbers: phoneList,
     };
 
     set(ref(db, `${formData.get("group-name")}`), data);
@@ -66,13 +70,19 @@ function Register({ getRoomData }) {
       <p>Please input your roommates into fields below.</p>
 
       <form onSubmit={handleSubmit}>
-        <label>
+        <p>
           Group Name: <input name="group-name" />
-        </label>
-        <br />
+        </p>
         <label>
-          1.
-          <input name={1} />
+          Roommate #1
+          <br />
+          <label>
+            Name: <input name={1} />
+          </label>
+          <br />
+          <label>
+            Number: <input name={`phone${1}`} />
+          </label>
         </label>
 
         {inputFields}
@@ -88,9 +98,17 @@ function Register({ getRoomData }) {
 
 const InputField = (props) => {
   return (
-    <div>
+    <div className="roommate-form">
       <label>
-        {props.num}. <input name={props.num} type="text" />
+        Roommate #{props.num}
+        <br />
+        <label>
+          Name: <input name={props.num} type="text" />
+        </label>
+        <br />
+        <label>
+          Number: <input name={`phone${props.num}`} type="text" />
+        </label>
       </label>
     </div>
   );

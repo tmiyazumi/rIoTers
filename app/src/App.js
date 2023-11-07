@@ -25,7 +25,6 @@ function App() {
     // Clean up listener
     return () => unsubscribe();
 
-
     // WORKING ON READING FROM
     // const dbRef = ref(getDatabase());
     // get(child(dbRef, `users/${userId}`))
@@ -64,24 +63,58 @@ function App() {
     <>
       {roomData ? (
         <>
-          <h1>Welcome to the Dashboard</h1>
-          <h2>
-            It's {roomData.queue[roomData.index]} turn to take the trash out!
-          </h2>
-          <h3>Group name: {roomData.groupName}</h3>
-          <h3>Distance: {distance}</h3>
-          <p>QUEUE:</p>
-          {roomData.queue.map((name, ind) => {
-            if (roomData.queue[roomData.index] === name) {
-              return (
-                <p key={ind}>
-                  <b>{name}</b>
-                </p>
-              );
-            } else {
-              return <p key={ind}>{name}</p>;
-            }
-          })}
+          <h1 className="title display-4">
+            {roomData.groupName + "'s trashcan 🗑"}
+          </h1>
+          <div className="queue">
+            {roomData.queue.map((name, ind) => {
+              if (roomData.queue[roomData.index] === name) {
+                return (
+                  <p className="roommate-item-selected" key={ind}>
+                    <b>{name}</b>
+                  </p>
+                );
+              } else {
+                return (
+                  <p className="roommate-item" key={ind}>
+                    {name}
+                  </p>
+                );
+              }
+            })}
+          </div>
+          <div className="information">
+            <div className="leaderboard">
+              <h1 className="title-2">🏆 Leaderboard</h1>
+              <table className="table">
+                <thead>
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Number</th>
+                    <th scope="col">Points</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {roomData.queue.map((name, ind) => {
+                    return (
+                      <tr key={ind}>
+                        <th scope="col">{ind + 1}</th>
+                        <td>{name}</td>
+                        <td>{roomData.numbers[ind]}</td>
+                        {/* get point value from database based on name */}
+                        <td>9</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+            <div className="stats">
+              <h1 className="title-2">📊 Stats</h1>
+              <h3>Fullness: {distance}</h3>
+            </div>
+          </div>
         </>
       ) : (
         <Register getRoomData={getRoomData}></Register>
