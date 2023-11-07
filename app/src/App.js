@@ -8,13 +8,14 @@ import Register from "./Register";
 function App() {
   const [roomData, setRoomData] = useState(null);
   const [distance, setDistance] = useState(0);
+  const [roommateList, setRoommateList] = useState(null);
 
   const getRoomData = (data) => {
     // This function will receive data from the child component
     setRoomData(data);
   };
 
-  useEffect(() => {
+  useEffect(() => {    
     const numberRef = ref(db, "test/int");
 
     const unsubscribe = onValue(numberRef, (snapshot) => {
@@ -59,6 +60,24 @@ function App() {
     // };
     // fetchData();
   });
+
+  useEffect(() => {
+    if (roommateList === null) {
+      const groupRef = ref(db, "Rioters");
+
+      get(groupRef).then((snapshot) => {
+        if (snapshot.exists()) {
+          console.log(snapshot.val());
+          setRoomData(snapshot.val());
+        } else {
+          console.log("no data available");
+          setRoommateList([]);
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+    }
+  }, [roommateList]);
 
   return (
     <>
