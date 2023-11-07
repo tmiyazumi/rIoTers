@@ -1,8 +1,5 @@
 import "./App.css";
 import { useState, useEffect } from "react";
-import { db } from "./firebase";
-import { getDatabase, ref, child, get } from "firebase/database";
-
 import Register from "./Register";
 
 function App() {
@@ -57,15 +54,15 @@ function App() {
           </h2>
           <h3>Group name: {roomData.groupName}</h3>
           <p>QUEUE:</p>
-          {roomData.queue.map((name) => {
+          {roomData.queue.map((name, ind) => {
             if (roomData.queue[roomData.index] === name) {
               return (
-                <p>
+                <p key={ind}>
                   <b>{name}</b>
                 </p>
               );
             } else {
-              return <p>{name}</p>;
+              return <p key={ind}>{name}</p>;
             }
           })}
         </>
