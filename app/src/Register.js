@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { db } from "./firebase";
 import { ref, set } from "firebase/database";
-
+import "./App.css";
 // Import the functions you need from the SDKs you need
 
 function Register({ getRoomData }) {
@@ -65,11 +65,49 @@ function Register({ getRoomData }) {
   };
 
   return (
-    <>
-      <h1>Smart trashcan</h1>
+    <div className="main-div">
+      <h1 className="display-4">Smart trashcan 🗑</h1>
       <p>Please input your roommates into fields below.</p>
 
       <form onSubmit={handleSubmit}>
+        <div class="row mb-3">
+          <label for="inputEmail3" class="col-sm-2 col-form-label">
+            Group name:
+          </label>
+          <div class="col-sm-10">
+            <input name="group-name" class="form-control" id="inputEmail3" />
+          </div>
+        </div>
+        <div class="col-12">
+          <label for="inputAddress" class="form-label">
+            Roomate #1
+          </label>
+          <input
+            type="text"
+            class="form-control input-item"
+            id="inputAddress"
+            placeholder="Name"
+          />
+          <input
+            type="text"
+            class="form-control input-item"
+            id="inputAddress"
+            placeholder="Number"
+          />
+        </div>
+        {inputFields}
+        <button
+          type="button"
+          class="btn btn-secondary add-roommate"
+          onClick={addInputField}
+        >
+          Add a roommate
+        </button>
+        <button type="submit" class="btn btn-primary">
+          Confirm
+        </button>
+      </form>
+      {/* <form >
         <p>
           Group Name: <input name="group-name" />
         </p>
@@ -91,25 +129,31 @@ function Register({ getRoomData }) {
           Add a roommate
         </button>
         <button type="submit">confirm</button>
-      </form>
-    </>
+      </form> */}
+    </div>
   );
 }
 
 const InputField = (props) => {
   return (
-    <div className="roommate-form">
-      <label>
-        Roommate #{props.num}
-        <br />
-        <label>
-          Name: <input name={props.num} type="text" />
-        </label>
-        <br />
-        <label>
-          Number: <input name={`phone${props.num}`} type="text" />
-        </label>
+    <div class="col-12">
+      <label for="inputAddress" class="form-label">
+        Roomate #{props.num}
       </label>
+      <input
+        type="text"
+        name={props.num}
+        class="form-control input-item"
+        id="inputAddress"
+        placeholder="Name"
+      />
+      <input
+        type="text"
+        name={`phone${props.num}`}
+        class="form-control input-item"
+        id="inputAddress"
+        placeholder="Number"
+      />
     </div>
   );
 };

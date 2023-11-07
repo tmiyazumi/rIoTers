@@ -8,6 +8,7 @@ import Register from "./Register";
 function App() {
   const [roomData, setRoomData] = useState(null);
   const [distance, setDistance] = useState(0);
+  const [roommateList, setRoommateList] = useState(null);
 
   const getRoomData = (data) => {
     // This function will receive data from the child component
@@ -59,10 +60,30 @@ function App() {
     // fetchData();
   });
 
+  useEffect(() => {
+    if (roommateList === null) {
+      const groupRef = ref(db, "Rioters");
+
+      get(groupRef)
+        .then((snapshot) => {
+          if (snapshot.exists()) {
+            console.log(snapshot.val());
+            setRoomData(snapshot.val());
+          } else {
+            console.log("no data available");
+            setRoommateList([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [roommateList]);
+
   return (
     <>
       {roomData ? (
-        <>
+        <div className="main">
           <h1 className="title display-4">
             {roomData.groupName + "'s trashcan 🗑"}
           </h1>
@@ -112,10 +133,12 @@ function App() {
             </div>
             <div className="stats">
               <h1 className="title-2">📊 Stats</h1>
-              <h3>Fullness: {distance}</h3>
+              <h3>
+                Fullness: {Math.trunc(((2700 - distance) / 2700) * 100) + "%"}
+              </h3>
             </div>
           </div>
-        </>
+        </div>
       ) : (
         <Register getRoomData={getRoomData}></Register>
       )}
