@@ -1,18 +1,31 @@
 import "./App.css";
 import { useState, useEffect } from "react";
 import { db } from "./firebase";
-import { getDatabase, ref, child, get } from "firebase/database";
+import { getDatabase, ref, child, get, onValue } from "firebase/database";
 
 import Register from "./Register";
 
 function App() {
   const [roomData, setRoomData] = useState(null);
+  const [distance, setDistance] = useState(0);
+
   const getRoomData = (data) => {
     // This function will receive data from the child component
     setRoomData(data);
   };
 
   useEffect(() => {
+    const numberRef = ref(db, "test/int");
+
+    const unsubscribe = onValue(numberRef, (snapshot) => {
+      const data = snapshot.val();
+      setDistance(data);
+    });
+
+    // Clean up listener
+    return () => unsubscribe();
+
+
     // WORKING ON READING FROM
     // const dbRef = ref(getDatabase());
     // get(child(dbRef, `users/${userId}`))
@@ -56,6 +69,7 @@ function App() {
             It's {roomData.queue[roomData.index]} turn to take the trash out!
           </h2>
           <h3>Group name: {roomData.groupName}</h3>
+          <h3>Distance: {distance}</h3>
           <p>QUEUE:</p>
           {roomData.queue.map((name) => {
             if (roomData.queue[roomData.index] === name) {
