@@ -84,12 +84,14 @@ function Register({ getRoomData }) {
           </label>
           <input
             type="text"
+            name={1}
             class="form-control input-item"
             id="inputAddress"
             placeholder="Name"
           />
           <input
             type="text"
+            name={`phone${1}`}
             class="form-control input-item"
             id="inputAddress"
             placeholder="Number"
