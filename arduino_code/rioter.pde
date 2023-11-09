@@ -16,7 +16,7 @@
 
 #define WIFI_SSID "ufdevice"
 #define WIFI_PASSWORD "gogators"
-#define API_KEY "AIzaSyB2JGLSuGYF8uyx9caQtZg1lJTgTzYqaP0"
+#define API_KEY ""
 #define DATABASE_URL "https://rioters-b0f93-default-rtdb.firebaseio.com/" 
 #define CE 4
 #define CSN 5
