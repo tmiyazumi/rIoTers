@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { db } from "./firebase";
 import { ref, set } from "firebase/database";
+import './register.css';
 
 // Import the functions you need from the SDKs you need
 
@@ -67,6 +68,8 @@ function Register({ getRoomData }) {
   return (
     <div className="main-div">
       <h1 className="display-4">Smart trashcan 🗑</h1>
+      <div class="line-ornament"></div>
+      
       <p>Please input your roommates into fields below.</p>
 
       <form onSubmit={handleSubmit}>

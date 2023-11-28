@@ -3,3 +3,171 @@
     height: 100vh;
     background-color: var(--background-color);
 }
+
+.second-tile {
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--primary-color);
+}
+
+.welcome-text {
+    font-size: 5em;
+    color: var(--text-color);
+    z-index: 5;
+}
+
+.Home {
+    color: var(--text-color);
+}
+
+.animation-container {
+    position: relative;
+    height: 600px; /* Adjust based on your layout */
+    z-index: 5;
+}
+
+.trash-can {
+    width: 200px; /* Size of the trash can */
+    height: 250px;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    animation: popUp 1s forwards;
+    opacity: 0;
+    z-index: 5;
+}
+
+.trash-can img {
+    width: inherit;
+}
+
+.circle {
+    width: 175px; /* Size of the circles */
+    height: 175px;
+    border-radius: 50%;
+    background-color: blue; /* Style as needed */
+    position: absolute;
+    bottom: 0; /* Start at the trash can's top */
+    left: 50%;
+    transform: scale(0);
+    opacity: 0;
+    overflow: hidden;
+}
+
+
+
+.line-ornament {
+    width: 500px; /* Line width */
+    height: 2px; /* Line thickness */
+    background-color: var(--accent-color); /* Line color */
+    margin: 0 auto; /* Center the line */
+}
+
+
+.circle img {
+    width: inherit;
+    z-index: 5;
+}
+
+.circle-1 {
+    animation: popOut 0.5s 1.5s forwards;
+    animation-delay: 0s, 2s;
+}
+.circle-2 {
+    animation: popOut 0.5s 1.75s forwards;
+}
+.circle-3 {
+    animation: popOut 0.5s 2s forwards;
+}
+.circle-4 {
+    animation: popOut 0.5s 2.25s forwards;
+}
+
+@keyframes popUp {
+    to { bottom: 50px; opacity: 1;} /* Raise the trash can */
+}
+
+@keyframes popOut {
+    0% { bottom: 200px; left: 50%; transform: scale(0); opacity: 0; }
+    100% { bottom: 350px; transform: scale(1); opacity: 1; }
+}
+
+
+/* Specific positions for each circle at the end of the animation */
+.circle-1 {
+    animation: popOut 0.5s 1.5s forwards;
+    left: calc(50% - 387.5px); /* Adjust these values */
+}
+.circle-2 {
+    animation: popOut 0.5s 1.75s forwards;
+    left: calc(50% - 187.5px); /* so that the circles are */
+}
+.circle-3 {
+    animation: popOut 0.5s 2s forwards;
+    left: calc(50% + 12.5px); /* evenly spaced and centered */
+}
+.circle-4 {
+    animation: popOut 0.5s 2.25s forwards;
+    left: calc(50% + 212.5px);
+}
+
+.btn-wrapper button {
+    color: var(--accent-color);
+    background-color: var(--text-color-light);
+    border-radius: 5%;
+    border: none;
+    z-index: 5;
+}
+
+.btn-wrapper button:hover {
+    opacity: 0.8;
+    z-index: 5;
+}
+
+.artifact-container {
+    position: absolute;
+    top: 0;
+    width: 100vw;
+    height: 100vh;
+}
+
+.sq {
+    position: relative;
+    border: 3px solid gray;
+    background-color: transparent;
+    height: 25%;
+    width: 60%;
+    top: 60%;
+    left: 20%;
+    z-index: 1;
+}
+
+.blackfriday {
+    z-index: 3;
+    width: 200px
+}
+
+.refer {
+    max-width: 30%;
+    max-height: 20%;
+    position: relative;
+    top: 37%;
+    left: 60%
+}
+
+.left-btn {
+    position: relative;
+    top: 25%;
+    left: 25%;
+    z-index: 4;
+}
+
+.dash-btn {
+    color: var(--accent-color);
+    background-color: var(--text-color-light);
+    border-radius: 5%;
+    border: none;
+    z-index: 5;
+}
+

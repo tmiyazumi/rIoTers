@@ -142,7 +142,7 @@ const Dashboard = () => {
             <div className="stats">
               <h1 className="title-2">📊 Stats</h1>
               <h3>
-                Fullness: {Math.trunc(((2700 - distance) / 2700) * 100) + "%"}
+                Fullness: {Math.trunc(((1330 - distance) / 1330) * 100) + "%"}
               </h3>
             </div>
           </div>
