@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { db } from "./firebase";
 import { ref, set } from "firebase/database";
-import "./App.css";
+
 // Import the functions you need from the SDKs you need
 
 function Register({ getRoomData }) {
