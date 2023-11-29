@@ -1,9 +1,6 @@
-// import { initializeApp } from "firebase/app";
-// import { getDatabase } from "firebase/database";
 const { initializeApp } = require("firebase/app");
-const { getDatabase, ref, onValue, get } = require("firebase/database");
+const { getDatabase, ref, onValue, get, update } = require("firebase/database");
 require('dotenv').config();
- // const express = require('express')
 
 const firebaseConfig = {
   apiKey: "AIzaSyB2JGLSuGYF8uyx9caQtZg1lJTgTzYqaP0",
@@ -22,11 +19,25 @@ const db = getDatabase(app);
 
 const reference = ref(db,"test/int");
 const usrRef = ref(db, "Rioters");
+const indRef = ref(db, "Rioters/index")
 
 const client = require('twilio')(
     process.env.TWILIO_ACCOUNT_SID,
     process.env.TWILIO_AUTH_TOKEN
 );
+
+const lastSentTimeStamps = {};
+
+let textSent = false;
+let firstTime = true;
+
+onValue(indRef, (snapshot) => {
+    const value = snapshot.val()
+    console.log("ind update");
+    textSent = false;
+    firstTime = true;
+})
+
 
 onValue(reference, (snapshot) => {
         const value = snapshot.val();
@@ -38,22 +49,46 @@ onValue(reference, (snapshot) => {
                     const index = data.index;
                     const numbers = data.numbers;
                     const names = data.queue;
-
+                    const points = data.pointers;
+                    
                     const phoneNumber = numbers[index];
                     console.log(phoneNumber);
                     const message = `${names[index]} it's your turn to take out the trash!`;
 
-                    client.messages.create({
-                        body: message,
-                        to: phoneNumber,
-                        from: process.env.TWILIO_PHONE_NUMBER,
-                    })
-                    .then((message) => console.log(`SMS sent: ${message.sid}`))
-                    .catch((error) => console.error(`Error sending SMS: ${error}`));
+                    const currentTimeStamp = Date.now();
+                    const lastTimeStamp = lastSentTimeStamps[phoneNumber] || 0;
+
+
+                    
+                    if (currentTimeStamp - lastTimeStamp >= 9000) {
+                        lastSentTimeStamps[phoneNumber] = currentTimeStamp;
+                        if (textSent) {
+                            const updates = {};
+                            points[index] -= 1;
+                            updates['Rioters/pointers'] = points;
+                            update(ref(db), updates);
+                        };
+                    
+                        client.messages.create({
+                            body: message,
+                            to: phoneNumber,
+                            from: process.env.TWILIO_PHONE_NUMBER,
+                        })
+                        .then((message) => console.log(`SMS sent: ${message.sid}`))
+                        .catch((error) => console.error(`Error sending SMS: ${error}`));
+                        if (firstTime) {
+                            const updates = {}
+                            pushedTime = Date.now();
+                            updates['Rioters/time'] = pushedTime;
+                            update(ref(db), updates);
+                            firstTime = false;
+                        }
+                    }
+                    else {
+                        console.log("message has been sent in the past 5 minutes!");
+                    }
                 })
         }
   });
 
   return () => unsubscribe();
-
-
