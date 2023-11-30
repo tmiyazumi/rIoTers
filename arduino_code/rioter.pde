@@ -136,17 +136,20 @@ void incrementIndex() {
       currIndex = 0;
     }
 
-    if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)){
-        if (Firebase.RTDB.setInt(&fbdo, "Rioters/index", currIndex)) {
-          Serial.println("PASSED");
-          Serial.println("PATH: " + fbdo.dataPath());
-          Serial.println("TYPE: " + fbdo.dataType());
-        }
-        else {
-          Serial.println("FAILED");
-          Serial.println("REASON: " + fbdo.errorReason());
-        }
-      }
+   if (Firebase.ready() && signupOK && (millis() - sendDataPrevMillis > 15000 || sendDataPrevMillis == 0)) {
+    if (Firebase.RTDB.setInt(&fbdo, "Rioters/index", currIndex)) {
+        Serial.println("Update successful");
+        Serial.println("PATH: " + fbdo.dataPath());
+        Serial.println("TYPE: " + fbdo.dataType());
+    } else {
+        Serial.println("Update failed");
+        Serial.println("REASON: " + fbdo.errorReason());
+        Serial.println("CURR INDEX: " + String(currIndex));
+        Serial.println("PATH: Rioters/index");
+        Serial.println("TYPE: int");
+    }
+}
+
 
 
 
@@ -156,6 +159,13 @@ void loop()
 {
 
   delay(500);
+
+   if (!Firebase.ready()) {
+        Serial.println("Firebase not ready, attempting to reconnect...");
+        Firebase.reconnectWiFi(true);
+        delay(1000);  // You may adjust the delay based on your requirements
+  } else {
+    
  if (Firebase.RTDB.getArray(&fbdo, "/Rioters/queue")) {
     if (fbdo.dataType() == "array") {
       roomNames = fbdo.jsonArray();
@@ -283,7 +293,7 @@ void loop()
         }
       }
       double fillStatus = 0;
-      fillStatus = (100.00)*((1365.00 - (double)receivedNum)/1365.00);
+      fillStatus = (100.00)*((1330.00 - (double)receivedNum)/1330.00);
       if (fillStatus < 0){
         fillStatus = 0;
       }
@@ -314,5 +324,5 @@ void loop()
     }
     delay(500);
   }
+  }
 }
-
